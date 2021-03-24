@@ -83,41 +83,6 @@ module MAE103
   _iswritable(file) = (uperm(file) >> 1) & 1 != 0
   _hasmatplotlib() = haskey(Conda._installed_packages_dict(),"matplotlib")
 
-  function tutorial_footer(; remove_homedir=true)
-      display("text/markdown", """
-      ## Appendix
-       This lesson is part of the MAE150.jl repository, found at: <https://github.com/jdeldre/MAE150A>.
-      """)
-      display("text/markdown", "Computer Information:")
-      vinfo = sprint(InteractiveUtils.versioninfo)
-      display("text/markdown",  """
-      ```
-      $(vinfo)
-      ```
-      """)
-
-      ctx = Pkg.API.Context()
-      pkgs = Pkg.Display.status(Pkg.API.Context(), use_as_api=true);
-      projfile = ctx.env.project_file
-      remove_homedir && (projfile = replace(projfile, homedir() => "~"))
-
-      display("text/markdown","""
-      Package Information:
-      """)
-
-      md = ""
-      md *= "```\nStatus `$(projfile)`\n"
-
-      for pkg in pkgs
-          if !isnothing(pkg.old) && pkg.old.ver !== nothing
-            md *= "[$(string(pkg.uuid))] $(string(pkg.name)) $(string(pkg.old.ver))\n"
-          else
-            md *= "[$(string(pkg.uuid))] $(string(pkg.name))\n"
-          end
-      end
-      md *= "```"
-      display("text/markdown", md)
-  end
 
   function open_notebooks()
     Base.eval(Main, Meta.parse("import IJulia"))
@@ -128,45 +93,6 @@ module MAE103
 
 
 ####
-
-
-
- """
-    ddt(u::AbstractVector,Δt[,mydiff=:backward_diff])
-
- Calculate the time derivative of vector data `u`, with time step size `Δt`.
- The default method is backward differencing, but this can be changed to
- `:forward_diff` or `:central_diff`.
- """
- function ddt(u::AbstractVector{T},t::AbstractVector{S};mydiff::Symbol=:forward_diff) where {T,S}
-    du = eval(mydiff)(u)./eval(mydiff)(t)
-    return du
- end
-
- # Some basic differencing routines
- function backward_diff(u::AbstractVector{T}) where {T}
-     du = zero(u)
-     du[2:end] .= u[2:end] .- u[1:end-1]
-     du[1] = du[2]
-     return du
- end
- function forward_diff(u::AbstractVector{T}) where {T}
-     du = zero(u)
-     du[1:end-1] .= u[2:end] .- u[1:end-1]
-     du[end] = du[end-1]
-     return du
- end
- function central_diff(u::AbstractVector{T}) where {T}
-     du = zero(u)
-     du[2:end-1] .= 0.5*u[3:end] .- 0.5*u[1:end-2]
-     du[1] = du[2]
-     du[end] = du[end-1]
-     return du
- end
-
-
- #include("trajectories.jl")
- #include("gasdynamics.jl")
 
 
 end
