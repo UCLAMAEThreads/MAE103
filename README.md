@@ -4,7 +4,7 @@ This repository is designed for MAE 103 Elementary Fluid Mechanics at UCLA.
 
 | Build Status |
 |:---:|
-| [![Build Status](https://github.com/jdeldre/MAE103/workflows/CI/badge.svg)](https://github.com/jdeldre/MAE103/actions)
+| [![Build Status](https://github.com/UCLAMAEThreads/MAE103/actions/workflows/CI.yml/badge.svg)](https://github.com/UCLAMAEThreads/MAE103/actions/workflows/CI.yml)
 
 To get started with jupyter, please do the following:
 
