@@ -41,11 +41,16 @@ pumpdata["500rpm"]["head"]
 #=
 Let's plot this data
 =#
-scatter(xlabel=L"$Q$ (m$^3$/s)",ylabel=L"$h$ (m)",legend=true)
+scatter(xlabel=L"$Q$ (m$^3$/s)",ylabel=L"$h$ (m)",legend=true,xlims=(0,Inf),ylims=(0,Inf))
 scatter!(pumpdata["250rpm"]["Q"],pumpdata["250rpm"]["head"],label="250 rpm")
 scatter!(pumpdata["500rpm"]["Q"],pumpdata["500rpm"]["head"],label="500 rpm")
 scatter!(pumpdata["1000rpm"]["Q"],pumpdata["1000rpm"]["head"],label="1000 rpm")
-
+#=
+The data don't appear very similar to each other, except for a rough shape.
+And more importantly, these are only curves for three pump speeds. What if
+we want to predict the performance at, say, 700 rpm?
+=#
+#-
 #=
 ### Find a suitable set of dimensionless parameters ($\Pi$ groups)
 Here, we should think of $\Delta p$ as the dependent variable and $Q$ as the
@@ -110,15 +115,16 @@ pumpdata["1000rpm"]["head_nd"] = pumpdata["1000rpm"]["head"]*g/(omega^2*D^2)
 Now plot these
 =#
 
-scatter(xlabel=L"$Q/\omega D^3$",ylabel=L"$gh/Q^2D^2$",legend=:bottomleft)
+scatter(xlabel=L"$Q/\omega D^3$",ylabel=L"$gh/\omega^2 D^2$",legend=:bottomleft,xlims=(0,Inf),ylims=(0,Inf))
 scatter!(pumpdata["250rpm"]["Q_nd"],pumpdata["250rpm"]["head_nd"],label="250 rpm")
 scatter!(pumpdata["500rpm"]["Q_nd"],pumpdata["500rpm"]["head_nd"],label="500 rpm")
 scatter!(pumpdata["1000rpm"]["Q_nd"],pumpdata["1000rpm"]["head_nd"],label="1000 rpm")
 
 #=
 The data collapse onto a single curve. This reveals the power of dimensional
-analysis! One could follow up with this by generating a statistical correlation
-between the two dimensionless parameter.
+analysis! One would follow up by generating a statistical correlation
+between the two dimensionless parameters. Then, we could use this correlation
+to predict performance at any pump speed or pump diameter!
 =#
 
-#savefig(ps,"pumpplot.pdf")
+#savefig("pumpplot.pdf")
