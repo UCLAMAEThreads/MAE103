@@ -8,11 +8,24 @@ the [Julia](https://julialang.org/) programming language.
 =#
 #-
 #=
+First, note that the notebooks in this package are probably read-only for you, so
+you cannot save it if you make changes. (This is for good reason.) If you would
+like to save your changes, then go up to the File menu in Jupyter and click
+"Make a copy..." and then do your work on the copy.
+=#
+#-
+#=
 ### Basics on Jupyter notebook with Julia
 First try a simple mathematical operation. To run a cell, press `SHIFT+RETURN`
 (or `SHIFT+ENTER`). You can also press the `Run` button above.
 =#
 2+2
+
+#=
+If you don't want to see the output of a calculation, then you can suppress it
+with the semicolon `;`
+=#
+a = 2+2;
 
 #=
 Here is an example of an array of values, specified as a range:
@@ -35,14 +48,15 @@ Julia allows the use of `unicode` symbols in variable or function names. This
 is really nice when we want to use Greek letters. The way to get such a symbol
 is by typing backslash (`\`), then the name of the symbol, then `TAB` to convert it.
 
-For example, let's write `Δt = 0.01`. We type `\Delta + TAB`:
+For example, let's write `Δt = 0.01`. We type `\Delta + TAB` to get the Delta
+Greek letter:
 =#
 Δt = 0.01
 
 #=
 ### Plotting
 Now try plotting. We first have to load the Plots package to use its plotting features.
-It take a couple of seconds for this to load.
+It takes a couple of seconds for this to load.
 =#
 using Plots
 
@@ -59,19 +73,42 @@ plot(x,y)
 #=
 That's the basic plot. Let's make it look better:
 =#
-ps = plot(x,y,xlims=(0,5),ylims=(-1,1),legend=false,xguide="x",yguide="y")
+plot(x,y,xlims=(0,5),ylims=(-1,1),legend=false,xguide="x",yguide="y")
 
+#=
+To make the labels on the axes look a little bit more professional, we can
+use the `LaTeXStrings` package
+=#
+using LaTeXStrings
+#=
+Then, each of the labels can be prefixed with `L`:
+=#
+plot(x,y,xlims=(0,5),ylims=(-1,1),legend=false,xguide=L"x",yguide=L"y")
+
+#=
+Suppose we wish to plot multiple things. Then we use `plot!` on every additional
+plot:
+=#
+y2 = cos.(x)
+plot(x,y,xlims=(0,5),ylims=(-1,1),label=L"sin($x$)",legend=true,xguide=L"x",yguide=L"y")
+plot!(x,y2,label=L"cos($x$)")
+#=
+Note: The $$ around the `x` in the labels above renders this in math (italic) font,
+but keeps the rest of the text in roman (upright) font.
+=#
+#-
 #=
 If we want to save that plot, e.g., for homework, then we would run this to save
 it as a pdf file (the best format for quality). Obviously you can change the name,
 but you should end it with ".pdf".
 =#
-savefig(ps,"myfigure.pdf")
+savefig("myfigure.pdf")
 
 #=
 Where is this file? you can see the directory contents by clicking the "Open..."
-in the File menu above. The figure file is there, and you can download it to your
-own computer by selecting the file and clicking the "Download" option at the top.
+in the File menu above. The figure file is there and is sitting in the same
+directory as the notebook. You can "download" it to a more visible directory
+by selecting the file and clicking the "Download" option at the top.
 =#
 #-
 #=
