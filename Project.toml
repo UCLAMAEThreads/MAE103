@@ -25,6 +25,7 @@ SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 [compat]
 ColorTypes = "0.10.9"
 Conda = "1.5.0"
+CurveFit = "0.3"
 IJulia = "1.23"
 LaTeXStrings = "1.2.0"
 Literate = "2.7"
