@@ -125,7 +125,7 @@ using SpecialFunctions
 f(x) = besselj(2,x)
 #-
 x = 0:0.01:20;
-plot(x,f.(x),grid=:true,xlims=(0,Inf),ylim=(-1,1),xguide="x",yguide="J2(x)",legend=:false)
+plot(x,f.(x),grid=:true,xlims=(0,Inf),ylim=(-1,1),xguide=L"x",yguide=L"J_2(x)",legend=:false)
 
 #=
 ### Further help on Julia
