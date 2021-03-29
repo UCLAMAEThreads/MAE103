@@ -23,6 +23,10 @@ Return the numerical value (with units) of `a`
 """
 value(s::FlowQuantity) = float(s.val)
 
+value(s::Unitful.Quantity) = float(s)
+value(s::Real) = float(s)
+
+
 """
     value(a::FlowQuantity,units::Unitful.Units)
 
