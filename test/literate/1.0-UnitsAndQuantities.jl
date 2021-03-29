@@ -1,7 +1,7 @@
 include("header.jl")
 
 #=
-# Flow quantities and units
+# Fluid properties, flow quantities, and units
 In this notebook, we will discuss *fluid properties* and *flow quantities*,
 and the systems of units we use for them. First, some basic definitions:
 - Fluid properties are properties of the material (the fluid)
