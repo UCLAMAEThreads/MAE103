@@ -23,6 +23,8 @@ module MAE103
   using Unitful: @unit, @u_str, Quantity, @derived_dimension, uconvert
   export @u_str
 
+  @reexport using Statistics
+
   #@reexport using Unitful
 
 

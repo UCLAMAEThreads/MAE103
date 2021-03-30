@@ -37,65 +37,6 @@ the arrows indicate the relative speed at that $y$ position.
 =#
 #-
 #=
-### Plotting velocity profiles
-The arrows are helpful, but you can also plot a velocity profile without them.
-For example, consider the following velocity:
-
-$$u(y) = \frac{4U_c}{H^2} y (H - y)$$
-
-The coefficient $U_c$ is a speed, and $H$ is the gap height.
-=#
-#=
-Let's define a function that evaluates this velocity. Here, `y`, `Uc`, and `H`
-are to be given as arguments to the function.
-=#
-u(y,Uc,H) = 4*Uc/H^2*y*(H-y)
-
-#=
-Suppose the gap height $H$ is 1 cm and the speed $U_c$ is 1 m/s. We will evaluate
-this velocity at a range of locations between 0 and $H$:
-=#
-H = 0.01  # 1 cm = 0.01 m
-Uc = 1.0
-y = range(0,H,length=101) # 101 points to evaluate at, just to make it look smooth.
-
-#=
-Now we evaluate the velocity function at the range of $y$ locations. (Remember that
-the `.` vectorizes the evaluation of a function.)
-=#
-u.(y,Uc,H)
-
-#=
-Notice that $u$ is 0 at the beginning and end of the range. Let's plot it. But
-let's plot it as a velocity profile, which means we make $u$ the 'x' axis and $y$
-the 'y' axis.
-=#
-
-plot(u.(y,Uc,H),y,xlim=(0,2Uc),ylim=(0,H),
-    legend=false,xlabel=L"u(y) (m/s)",ylabel=L"y (m)")
-#=
-The top and bottom of this plot suggest that these are stationary walls where the
-flow is at rest. In fact, this is the velocity profile associated with pressure-driven
-flow through the gap.
-=#
-
-#=
-#### Dimensionless plots
-We should get in the habit of making our plots "dimensionless". This has many benefits,
-including ensuring that the results are not dependent on the specific gap size and speed.
-=#
-plot(u.(y,Uc,H)/Uc,y/H,xlim=(0,2),ylim=(0,1),
-    legend=false,xlabel=L"u(y)/U_c",ylabel=L"y/H",yticks=0:0.25:1)
-
-#=
-Now we can read off the velocity as a fraction of the maximum (centerline) speed,
-and the position as a fraction of the gap height. There are no units on this plot,
-so it is irrelevant what system of units was used in the first place. (Notice that
-we also made sure that the centerline has its own tick mark, to make it easier to
-locate it.)
-=#
-#-
-#=
 ### Shear stress
 We can calculate the viscous shear stress at any location with the equation
 
@@ -116,6 +57,81 @@ The **rate of work** (per unit area) required to move the upper wall is $\dot{W}
 This would be measured in units of, e.g., $W/m^2$.
 =#
 #-
+#=
+### Plotting velocity profiles
+The arrows are helpful, but you can also plot a velocity profile without them.
+For example, consider the following velocity:
+
+$$u(y) = \frac{4U_c}{H^2} y (H - y)$$
+
+The coefficient $U_c$ is a speed, and $H$ is the gap height.
+=#
+#=
+Let's define a function that evaluates this velocity. Here, `y`, `Uc`, and `H`
+are to be given as arguments to the function.
+=#
+u(y,Uc,H) = 4*Uc/H^2*y*(H-y)
+
+#=
+Suppose the gap height $H$ is 1 cm and the speed $U_c$ is 1 m/s. We will evaluate
+this velocity at a range of locations between 0 and $H$. Here, we evaluate
+the velocity at 101 points. There's nothing magical about this number; it just
+is enough to make the curve look smooth. Also, note that we have to give
+units for the `y` values, as well:
+=#
+H = 1u"cm"
+Uc = 1u"m/s"
+y = range(0u"cm",H,length=101)
+
+#=
+Now we evaluate the velocity function at the range of $y$ locations. (Remember that
+the `.` vectorizes the evaluation of a function. Here, we are telling it to
+evaluate the function `u` at each element of the `y` array.) The resulting
+velocities are assigned to `v`.
+=#
+v = u.(y,Uc,H)
+
+#=
+Notice that $u$ is 0 at the beginning and end of the range. Let's plot it. But
+let's plot it as a velocity profile, which means we make velocity the 'x' axis and $y$
+the 'y' axis:
+=#
+plot(v,y,xlim=(0,Inf),ylim=(0,Inf),xlabel=L"u(y)",ylabel=L"y")
+
+#=
+NOTE: The use of `xlim=(0,Inf),ylim=(0,Inf)` simply ensures that the axes start at 0
+and end at the upper range of the data in `v` and `y`, respectively.
+
+The top and bottom of this plot suggest that these are stationary walls where the
+flow is at rest. In fact, this is the velocity profile associated with pressure-driven
+flow through the gap.
+=#
+#-
+#=
+Suppose we wish to plot the velocity in different units. We can easily do this with
+the `xunit` flag. For example, in `ft/s`:
+=#
+plot(v,y,xunit=u"ft/s",xlim=(0,Inf),ylim=(0,Inf),xlabel=L"u(y)",ylabel=L"y")
+#-
+#=
+In the previous notebook, we showed that we can set velocity using
+the `Velocity` function. We can do that here if we like. We'll call it `vv`.
+We have to use the `.` notation to make sure each element in `v` gets the
+same treatment:
+=#
+vv = Velocity.(v)
+plot(vv,y,xlim=(0,Inf),ylim=(0,Inf),xlabel="u(y)",ylabel="y")
+
+#=
+The `Velocity` function simply *wraps* the velocity data in `v`. It is
+probably not immediately clear why we would need to do this, since the
+data are already in the correct units (m/s). However, it
+will be useful later when we use functions that perform calculations,
+and we wish to make sure we don't try to provide the wrong type of data
+to those functions.
+=#
+#-
+
 #=
 #### Viscometry
 We can use the relationship between the velocity and shear stress for many practical
@@ -162,53 +178,50 @@ Let's suppose that we take measurements of a viscometer with the following
 characteristics: inner radius $R = 6$ cm, gap height $H = 0.125$ cm, and length
 $L = 13$ cm. We will convert everything to SI (i.e., meters):
 =#
-R = 0.06
-H = 0.00125
-L = 0.13;
+R = 6u"cm"
+H = 0.125u"cm"
+L = 13u"cm";
 
 #=
 We run the viscometer at 6 different speeds and measure the required torque in
 each case. Here is the data we measured. Angular velocity is given in rad/s,
 and torque in N$\cdot$m
 =#
-Ω = [0.0,1.0,2.0,3.0,4.0,5.0,6.0]
+Ω = [1.0,2.0,3.0,4.0,5.0,6.0]u"rad/s"
 
-T = [0.0,0.181,0.36,0.54,0.72,0.899,1.086];
+T = [0.181,0.36,0.54,0.72,0.899,1.086]u"N*m";
 
-#=
-Note that, since we expect 0 torque at 0 speed, we have included that point in our data.
-=#
 #-
 #=
 Let's plot the data to see the trend qualitatively:
 =#
-scatter(Ω,T,legend=false,xlabel="Angular velocity (rad/s)",ylabel="Torque (N.m)")
+scatter(Ω,T,xlim=(0,Inf),ylim=(0,Inf),xlabel="Angular velocity",ylabel="Torque")
 
 #=
-It looks quite linear! Let's fit a line through the data. We will use the
-`CurveFit` package for this:
+It looks quite linear! This is expected, since torque is linearly dependent on
+the angular velocity in the relationship above.
+Based on the equation above, we expect that the ratio of these two quantities
+will be equal to $2\pi L\mu R^3/H$. So if we multiply the ratio by $H/(2\pi L R^3)$,
+we expect
+
+$$\dfrac{T H}{2\pi L R^3 \Omega} = \mu$$
+
+Let's do this for our data. Since we are doing this for each data point,
+we will get an array of values. (Notice the `.` in front of `/` when we divide by `Ω`.
+Dividing by an array needs to be done in a vectorized manner.) We assign this
+array the name `a`:
 =#
-using CurveFit
+a = T./Ω*H/(2π*L*R^3)
 
 #=
-The `linear_fit` function suits our needs. (Try using ? to see help on this).
-To fit a straight line through a set of points, $y = a_1 + a_2 x$,
+We expect `a` to give us viscosity, but there's always the chance for
+experimental error. So we will take the mean of `a`. And we will use the
+`Viscosity` function to put this in the default units of viscosity:
 =#
-a = linear_fit(Ω,T)
+Viscosity(mean(a))
+
 
 #=
-We'll ignore the first coefficient, because we don't expect a y intercept in our
-straight line. The second coefficient, $a[2]$, is the slope:
-
-$$T = a[2]\Omega$$
-
-Compare this with the formula above relating torque to angular velocity,
-$T = 2\pi L\mu \Omega R^3/H$. We clearly must expect that
-
-$$\mu = a[2]H/(2\pi L R^3)$$
-=#
-μ = a[2]*H/(2π*L*R^3)
-#=
-Since we've put all units in SI, this value of viscosity must be in kg/(m$\cdot$s).
 It's quite viscous! Only slightly smaller viscosity than glycerin.
 =#
+Viscosity(Glycerin)

@@ -13,6 +13,7 @@ The third argument is the dimension of the quantity.
 @displayedunits SpecificEnergyType "J/kg"   𝐋^2/𝐓^2
 @displayedunits SpecificHeatType   "J/kg/K" 𝐋^2/𝐓^2/𝚯
 @displayedunits VelocityType       "m/s"    𝐋/𝐓
+@displayedunits AngularVelocityType "rad/s" 𝐓^-1
 @displayedunits AreaType           "m^2"    𝐋^2
 @displayedunits VolumeType         "m^3"    𝐋^3
 @displayedunits MassFlowRateType   "kg/s"   𝐌/𝐓
@@ -60,6 +61,7 @@ the list above of QtyType
 @create_dimvar SoundSpeed             VelocityType
 @create_dimvar StagnationSoundSpeed   VelocityType
 @create_dimvar Velocity               VelocityType
+@create_dimvar AngularVelocity        AngularVelocityType
 @create_dimvar Entropy                SpecificHeatType
 @create_dimvar MassFlowRate           MassFlowRateType
 @create_dimvar HeatFlux               SpecificEnergyType
