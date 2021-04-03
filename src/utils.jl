@@ -140,6 +140,7 @@ macro create_nondimvar(qty)
             name :: String
           end
           $qty(x::Real) = $qty(x,$strqty)
+          $qty(x::Unitful.Quantity{T,Unitful.NoDims}) where {T} = $qty(uconvert.(Unitful.NoUnits,x))
 
           export $qty
       end)

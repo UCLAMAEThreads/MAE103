@@ -16,7 +16,7 @@ $$\Delta p = f(D,\rho,\omega,Q)$$
 using MAE103
 #-
 using Plots
-using JLD # to read/write data
+using Serialization # to read/write data
 
 #=
 ### Read in some raw data
@@ -27,21 +27,30 @@ vs volume flow rate (in units of cubic meters per second).
 We will load in data for pump speeds of 250, 500 and 1000 rpm. For later convenience,
 we will put all of these data into one data structure called `pumpdata`.
 =#
-pumpdata = load("pumpdata.jld")
+pumpdata = deserialize("pumpdata.jls")
 
 #=
-The data is in the form of a `Dict` (short for dictionary). For example,
+The data are in the form of a `Dict` (short for dictionary). For example,
 to get the flow rates for speed 500 rpm,
 =#
-pumpdata["500rpm"]["Q"]
+Q500 = pumpdata["500rpm"]["Q"]
 
 # and the associated head increases are
-pumpdata["500rpm"]["head"]
+h500 = pumpdata["500rpm"]["head"]
+
+#=
+To convert the flow rate data to gallons/minute (gpm), for example
+=#
+value.(VolumeFlowRate.(Q500),u"gal/minute")
+#=
+or head increase to ft
+=#
+value.(Head.(h500),u"ft")
 
 #=
 Let's plot this data
 =#
-scatter(xlabel=L"$Q$ (m$^3$/s)",ylabel=L"$h$ (m)",legend=true,xlims=(0,Inf),ylims=(0,Inf))
+scatter(xlabel=L"$Q$",ylabel=L"$h$",legend=true,xlims=(0,Inf),ylims=(0,Inf))
 scatter!(pumpdata["250rpm"]["Q"],pumpdata["250rpm"]["head"],label="250 rpm")
 scatter!(pumpdata["500rpm"]["Q"],pumpdata["500rpm"]["head"],label="500 rpm")
 scatter!(pumpdata["1000rpm"]["Q"],pumpdata["1000rpm"]["head"],label="1000 rpm")
@@ -67,49 +76,50 @@ From the energy equation, $h_p + p_1/\rho g = p_2/\rho g$, where $\Delta p = p_2
 Thus, we can rewrite the first $\Pi$ group in terms of $h_p$, so that the relationship is
 
 $$\dfrac{g h_p}{\omega^2 D^2} = f \left( \dfrac{Q}{\omega D^3} \right)$$
+
+The dimensionless flow rate is called the *flow coefficient*, and the
+dimensionless head is called the *head rise coefficient*.
 =#
 
 #=
 ### Calculate the $\Pi$ groups and plot them on the same plot
 We will now use the raw dimensional data in `pumpdata` to calculate the
-$\Pi$ groups. However, we need to make sure all of the quantities are in a common
-system of units first. We have the pump data in SI units already. We will also
-convert the pump speed and diameter to SI.
+$\Pi$ groups. We set the basic parameters here:
 =#
-D_in = 12
-omega_rpm = [250,500,1000];
+D = 12u"inch"
+g = 1u"ge" # This is Earth's gravitation constant
 
 #=
-For the conversion, we need a few conversion factors:
+So, let's say we want to calculate the flow coefficient at 250 rpm:
 =#
-g_mpersec2 = 9.81
-rpm_to_radpersec = 2π/60
-in_to_cm = 2.54
-cm_to_m = 1/100
+omega = 250u"rpm"
+pumpdata["250rpm"]["Q"]/(omega*D^3)
 
 #=
-Now get SI values for each of the parameters
+It looks like the data have units! But on closer inspection, they are
+actually units that will cancel (with appropriate conversions). We can make that
+happen by using the `DimensionlessParameter` function. (We use this in
+vectorized form on each element in the array.) We'll assign the result to
+a new key in the `Dict`, called `Q_nd`:
 =#
-D = D_in*in_to_cm*cm_to_m
-g = g_mpersec2
-omega = omega_rpm*rpm_to_radpersec;
+pumpdata["250rpm"]["Q_nd"] = DimensionlessParameter.(pumpdata["250rpm"]["Q"]/(omega*D^3))
+
+#=
+Similarly for the head rise coefficient, which we call head_nd here:
+=#
+pumpdata["250rpm"]["head_nd"] = DimensionlessParameter.(pumpdata["250rpm"]["head"]*g/(omega^2*D^2))
 
 
 #=
-We can now calculate the $\Pi$ groups. We will refer to these as `Q_nd`
-and `head_nd` (`nd` for non-dimensional):
+Let's do the same at 500 and 1000 rpm
 =#
-omega = 250*rpm_to_radpersec
-pumpdata["250rpm"]["Q_nd"] = pumpdata["250rpm"]["Q"]/(omega*D^3)
-pumpdata["250rpm"]["head_nd"] = pumpdata["250rpm"]["head"]*g/(omega^2*D^2)
+omega = 500u"rpm"
+pumpdata["500rpm"]["Q_nd"] = DimensionlessParameter.(pumpdata["500rpm"]["Q"]/(omega*D^3))
+pumpdata["500rpm"]["head_nd"] = DimensionlessParameter.(pumpdata["500rpm"]["head"]*g/(omega^2*D^2));
 #-
-omega = 500*rpm_to_radpersec
-pumpdata["500rpm"]["Q_nd"] = pumpdata["500rpm"]["Q"]/(omega*D^3)
-pumpdata["500rpm"]["head_nd"] = pumpdata["500rpm"]["head"]*g/(omega^2*D^2)
-#-
-omega = 1000*rpm_to_radpersec
-pumpdata["1000rpm"]["Q_nd"] = pumpdata["1000rpm"]["Q"]/(omega*D^3)
-pumpdata["1000rpm"]["head_nd"] = pumpdata["1000rpm"]["head"]*g/(omega^2*D^2)
+omega = 1000u"rpm"
+pumpdata["1000rpm"]["Q_nd"] = DimensionlessParameter.(pumpdata["1000rpm"]["Q"]/(omega*D^3))
+pumpdata["1000rpm"]["head_nd"] = DimensionlessParameter.(pumpdata["1000rpm"]["head"]*g/(omega^2*D^2));
 
 #=
 Now plot these
