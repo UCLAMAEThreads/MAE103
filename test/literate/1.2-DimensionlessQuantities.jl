@@ -168,3 +168,14 @@ these software tools will carry out the conversion for us! For example, if
 we divide $u = 0.5$ m/s by $U_c = 3$ ft/s:
 =#
 DimensionlessParameter(0.5u"m/s"/3u"ft/s")
+
+#=
+This name `DimensionlessParameter` isn't very descriptive! It might
+be nice to use a more specific name for this quantity. Let's create
+a new function that we can use to set this dimensionless velocity:
+=#
+@nondimvar DimensionlessVelocity
+#=
+Now we can use this to set the ratio of velocities:
+=#
+u_nd = DimensionlessVelocity(0.5u"m/s"/3u"ft/s")
