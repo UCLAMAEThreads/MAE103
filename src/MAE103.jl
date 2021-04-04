@@ -4,28 +4,14 @@ module MAE103
 
   using Reexport
 
-  #@reexport using OrdinaryDiffEq
-
-  #import Plots: plot
-
-  #using Interpolations
-  #using JLD
   using Requires
-  #@reexport using RecursiveArrayTools
-  #using Dierckx
-  #using Roots
-  ##using PyCall
-  ##using PyPlot
   using Conda
 
-  # This form is necessary to add new units
-  import Unitful
-  using Unitful: @unit, @u_str, Quantity, @derived_dimension, uconvert
-  export @u_str
+  @reexport using ThermofluidQuantities
+  import ThermofluidQuantities: Unitful
+
 
   @reexport using Statistics
-
-  #@reexport using Unitful
 
 
   repo_directory = joinpath(@__DIR__,"..")
@@ -34,23 +20,15 @@ module MAE103
   #proj_dir = dirname(proj_file)
   #notebook_dir = joinpath(proj_dir,"notebook")
 
-
-
-  include("units.jl")
-  include("utils.jl")
-  include("quantities.jl")
-  include("gases.jl")
-  include("liquids.jl")
-
   include("plot_recipes.jl")
 
 
-  const localunits = Unitful.basefactors
+  #const localunits = Unitful.basefactors
 
   function __init__()
 
-    merge!(Unitful.basefactors, localunits)
-    Unitful.register(MAE103)
+    #merge!(Unitful.basefactors, localunits)
+    #Unitful.register(MAE103)
 
     @require Plots="91a5bcdd-55d7-5caf-9e0b-520d859cae80" begin
 
