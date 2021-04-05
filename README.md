@@ -23,3 +23,8 @@ If you already have jupyter set up on your computer, start here:
 3. After you have waited patiently for that to finish, type `MAE103.open_notebooks()`. This will put you into the main index of notebooks. You can open each one and run it.
 
 4. If you wish to use any of these notebooks as a starting point for your own modifications, please use the "Make a Copy..." option from the main jupyter menu.
+
+
+If you cannot get the notebooks to run on your own computer, you can run them on a remote server. You will have to be careful to download your saved notebooks to your own computer, since you generally cannot save your work:
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UCLAMAEThreads/MAE103/HEAD)
