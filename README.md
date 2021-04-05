@@ -2,9 +2,8 @@
 
 This repository is designed for MAE 103 Elementary Fluid Mechanics at UCLA.
 
-| Build Status |
-|:---:|
-| [![Build Status](https://github.com/UCLAMAEThreads/MAE103/actions/workflows/CI.yml/badge.svg)](https://github.com/UCLAMAEThreads/MAE103/actions/workflows/CI.yml)
+[![Build Status](https://github.com/UCLAMAEThreads/MAE103/actions/workflows/CI.yml/badge.svg)](https://github.com/UCLAMAEThreads/MAE103/actions/workflows/CI.yml) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UCLAMAEThreads/MAE103/HEAD)
+
 
 To get started with jupyter, please do the following:
 
@@ -25,6 +24,5 @@ If you already have jupyter set up on your computer, start here:
 4. If you wish to use any of these notebooks as a starting point for your own modifications, please use the "Make a Copy..." option from the main jupyter menu.
 
 
-If you cannot get the notebooks to run on your own computer, you can run them on a remote server. You will have to be careful to download your saved notebooks to your own computer, since you generally cannot save your work:
+If you cannot get the notebooks to run on your own computer, you can run them on a remote server using the launch/binder button above. You will have to be careful to download your saved notebooks to your own computer, since you generally cannot save your work.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UCLAMAEThreads/MAE103/HEAD)
