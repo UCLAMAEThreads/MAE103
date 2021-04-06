@@ -24,7 +24,7 @@ These are not static notebooks. **You are encouraged to play with them: run with
 
 #### Chapter 2 - Fluid statics
 
--
+- [2.0 Basics of fluid statics](2.0-FluidStatics.ipynb)
 
 #### Chapter 3 - Flow kinematics
 

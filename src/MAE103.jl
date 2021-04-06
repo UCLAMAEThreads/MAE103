@@ -20,8 +20,8 @@ module MAE103
   #proj_dir = dirname(proj_file)
   #notebook_dir = joinpath(proj_dir,"notebook")
 
+  include("quantities.jl")
   include("plot_recipes.jl")
-
 
   #const localunits = Unitful.basefactors
 
