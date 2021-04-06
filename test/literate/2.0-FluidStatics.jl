@@ -3,7 +3,6 @@ include("header.jl")
 #=
 # Fluid statics
 In this notebook, we will learn
-We will learn about
 * About the specific weight of a fluid and how pressure increases with depth
 * The concept of a fluid interface and a free surface
 * How to perform basic calculations
@@ -61,7 +60,7 @@ We often use the symbol $p_\infty$ for this ambient pressure:
 p∞ = Pressure(1u"atm")
 
 #=
-So let's get an appreciated for how much the pressure increases in water due to fluid
+So let's get an appreciation for how much the pressure increases in water due to fluid
 statics. For example, in 1 m of water, the pressure increases by
 =#
 dp = Pressure(SpecificWeight(Water)*1u"m")
@@ -74,18 +73,33 @@ value(dp,u"atm")
 so for every meter of depth, the pressure increases by 10 percent of one
 atmosphere. This means we only need to go down to 10 meters (or 34 feet)
 to increase the pressure by one atmosphere. That's not far at all.
+
+We can plot the pressure distribution through this depth by using `staticpressure`
 =#
+staticpressure(10u"m",Water)
 
 #-
 #=
 Because the fluid statics equation describes pressure differences, then it can be
 used in a *cumulative* manner. In other words, to calculate the pressure at some
 point, we add the contributions of all of the fluid (or fluids) above that point.
+
+For example, to emphasize how little the pressure in air varies with depth,
+let's imagine there is a 10 m layer of air on top of the 10 m layer of water,
+and plot the pressure distribution throughout both layers. The top of the air
+layer is at 1 atm. (Here, we are imagining both fluids sitting inside a container,
+so a layer of air makes sense.)
+=#
+staticpressure([10u"m",20u"m"],[Air,Water])
+
+#=
+There's no noticeable change of pressure in the upper (air) layer,
+but the pressure in the water increases much more rapidly with depth.
 =#
 #-
 #=
 ### Example
-A one-foot layer of glycerin lies below a 4-inch layer of water. The water is exposed
+A 10-foot layer of glycerin lies below a 5-ft layer of water. The water is exposed
 to pressurized air at $p_\infty = 3$ atm. Determine the pressure at the bottom of the glycerin
 layer, in Pa.
 
@@ -99,9 +113,19 @@ height of this layer. As usual, we need to make sure that the units are consiste
 with each other when we perform this calculation. For example, to get
 the height of the water layer in meters,
 =#
-h_w = Height(4u"inch")
+h_w = Height(5u"ft")
 
 #=
 But actually the tools in our notebooks do this all for us:
 =#
-Pressure(3u"atm" + SpecificWeight(Water)*4u"inch" + SpecificWeight(Glycerin)*1u"ft")
+Pressure(3u"atm" + SpecificWeight(Water)*5u"ft" + SpecificWeight(Glycerin)*10u"ft")
+
+#=
+We can plot the pressure in these layers:
+=#
+staticpressure([5u"ft",5u"ft"+10u"ft"],[Water,Glycerin],ambient=3u"atm")
+
+#=
+Glycerin is only slightly denser than water, so it doesn't look remarkably
+different in the two layers. 
+=#

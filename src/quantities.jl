@@ -2,3 +2,4 @@
 # base one in ThermofluidQuantities
 
 @dimvar  Height  LengthType
+@dimvar  Depth   LengthType

@@ -8,7 +8,7 @@ module MAE103
   using Conda
 
   @reexport using ThermofluidQuantities
-  import ThermofluidQuantities: Unitful
+  import ThermofluidQuantities: Unitful 
 
 
   @reexport using Statistics
@@ -21,7 +21,6 @@ module MAE103
   #notebook_dir = joinpath(proj_dir,"notebook")
 
   include("quantities.jl")
-  include("plot_recipes.jl")
 
   #const localunits = Unitful.basefactors
 
@@ -61,9 +60,11 @@ module MAE103
       rcParams["mathtext.fontset"] = "cm"
 
       Plots.default(markerstrokealpha = 0, legend = false,
-        dpi = 100, size = (400, 300), grid = false)
+        dpi = 100, size = (400, 300), grid = false, widen=false)
 
+      include("plot_recipes.jl")
       include("arrows.jl")
+
 
     end
 
