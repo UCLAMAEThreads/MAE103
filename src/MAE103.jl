@@ -8,7 +8,7 @@ module MAE103
   using Conda
 
   @reexport using ThermofluidQuantities
-  import ThermofluidQuantities: Unitful 
+  import ThermofluidQuantities: Unitful
 
 
   @reexport using Statistics
@@ -16,11 +16,13 @@ module MAE103
 
   repo_directory = joinpath(@__DIR__,"..")
 
-  proj_file = Pkg.project().path
+  proj_file = Base.active_project() #Pkg.project().path
   #proj_dir = dirname(proj_file)
   #notebook_dir = joinpath(proj_dir,"notebook")
 
   include("quantities.jl")
+  include("fluidstatics.jl")
+
 
   #const localunits = Unitful.basefactors
 
@@ -43,7 +45,7 @@ module MAE103
           ENV["PYTHON"] = ""
           Pkg.build("PyCall")
         else
-          _hasmatplotlib() || error("Project file is not writable. Cannot build PyCall")
+           _hasmatplotlib() || error("Project file is not writable. Cannot build PyCall")
         end
       end
 

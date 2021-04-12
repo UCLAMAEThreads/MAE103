@@ -2,6 +2,7 @@ using MAE103
 using Test
 using Literate
 using JLD # need this to ensure JLD works inside .jl files for Literate use
+using Plots # prevents annoying messages inside the generated notebooks
 
 outputdir = "../notebook"
 litdir = "./literate"
@@ -31,7 +32,7 @@ end
 
 for (root, dirs, files) in walkdir(litdir)
     for file in files
-        endswith(file,".jl") && startswith(file,"2.0") && Literate.notebook(joinpath(root, file),outputdir,preprocess = replace_includes)
-        #endswith(file,".jl") && Literate.notebook(joinpath(root, file),outputdir,preprocess = replace_includes)
+        #endswith(file,".jl") && startswith(file,"2.1") && Literate.notebook(joinpath(root, file),outputdir,preprocess = replace_includes)
+        endswith(file,".jl") && Literate.notebook(joinpath(root, file),outputdir,preprocess = replace_includes)
     end
 end

@@ -60,6 +60,14 @@ We often use the symbol $p_\infty$ for this ambient pressure:
 p∞ = Pressure(1u"atm")
 
 #=
+We can obtain specific weights in liquids other than water by knowing their
+*specific gravity*, equal to their specific weight divided by that of water.
+For example, if a certain type of oil has specific gravity of 0.9, it means its
+density is 0.9 times that of water:
+=#
+γoil = SpecificWeight(SpecificGravity(0.9))
+
+#=
 So let's get an appreciation for how much the pressure increases in water due to fluid
 statics. For example, in 1 m of water, the pressure increases by
 =#
@@ -93,8 +101,9 @@ so a layer of air makes sense.)
 staticpressure([10u"m",20u"m"],[Air,Water])
 
 #=
-There's no noticeable change of pressure in the upper (air) layer,
-but the pressure in the water increases much more rapidly with depth.
+There's no noticeable change of pressure in the upper (air) layer, so we
+can always assume that the pressure is uniform in static air. But the pressure in
+the water increases much more rapidly with depth.
 =#
 #-
 #=
@@ -127,5 +136,5 @@ staticpressure([5u"ft",5u"ft"+10u"ft"],[Water,Glycerin],ambient=3u"atm")
 
 #=
 Glycerin is only slightly denser than water, so it doesn't look remarkably
-different in the two layers. 
+different in the two layers.
 =#
