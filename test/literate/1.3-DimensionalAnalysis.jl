@@ -39,9 +39,9 @@ Q500 = pumpdata["500rpm"]["Q"]
 h500 = pumpdata["500rpm"]["head"]
 
 #=
-To convert the flow rate data to gallons/minute (gpm), for example
+To convert the flow rate data to liters/minute (lpm), for example
 =#
-value.(VolumeFlowRate.(Q500),u"gal/minute")
+value.(VolumeFlowRate.(Q500),u"L/minute")
 #=
 or head increase to ft
 =#
