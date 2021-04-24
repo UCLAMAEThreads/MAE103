@@ -9,9 +9,7 @@ abstract type Semicircle <: AbstractShape end
 abstract type Triangle <: AbstractShape end
 
 
-
-
-ThermofluidQuantities.SpecificWeight(sg::SpecificGravity) = SpecificWeight(sg*SpecificWeight(Water))
+#ThermofluidQuantities.SpecificWeight(sg::SpecificGravity) = SpecificWeight(sg*SpecificWeight(Water))
 
 
 ##### Some geometric formulas #####

@@ -2,8 +2,8 @@ include("header.jl")
 
 #=
 # Submerged surfaces
-In this notebook, we will learn
-*
+In this notebook, we will learn how to calculate force and moment on
+flat surfaces immersed in static fluids
 =#
 
 # ### Set up the module
