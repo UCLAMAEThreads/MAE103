@@ -31,7 +31,8 @@ These are not static notebooks. **You are encouraged to play with them: run with
 
 #### Chapter 3 - Flow kinematics
 
--
+- [3.0 Streamlines](3.0-Streamlines.ipynb)
+
 
 #### Chapter 4 - Control volume analysis
 
