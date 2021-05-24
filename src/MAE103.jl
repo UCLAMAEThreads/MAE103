@@ -10,9 +10,12 @@ module MAE103
   @reexport using ThermofluidQuantities
   import ThermofluidQuantities: Unitful
 
+  @reexport using Gasdynamics1D
+
 
   @reexport using Statistics
 
+  using Roots
 
   repo_directory = joinpath(@__DIR__,"..")
 
@@ -22,6 +25,7 @@ module MAE103
 
   include("quantities.jl")
   include("fluidstatics.jl")
+  include("pipeflow.jl")
 
 
   #const localunits = Unitful.basefactors

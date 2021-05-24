@@ -38,13 +38,15 @@ These are not static notebooks. **You are encouraged to play with them: run with
 
 -
 
-#### Chapter 5 - Differential analysis and pipe flow
+#### Chapter 5 - Pipe flow systems
 
 -
 
 #### Chapter 6 - Compressible flow
 
--
+- [6.0 Basic gas dynamics](6.0-BasicGasDynamics.ipynb)
+- [6.1 Isentropic gas dynamics](6.1-IsentropicGasDynamics.ipynb)
+- [6.2 Converging-diverging nozzles](6.2-ConvergingDivergingNozzle.ipynb)
 
 
 =#
