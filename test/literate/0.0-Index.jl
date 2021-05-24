@@ -40,7 +40,7 @@ These are not static notebooks. **You are encouraged to play with them: run with
 
 #### Chapter 5 - Pipe flow systems
 
-- [5.0 Energy equation example](5.0-EnergyEquationExample.jl)
+- [5.0 Energy equation example](5.0-EnergyEquationExample.ipynb)
 
 #### Chapter 6 - Compressible flow
 
