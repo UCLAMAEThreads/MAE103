@@ -4,8 +4,9 @@ This repository is designed for MAE 103 Elementary Fluid Mechanics at UCLA.
 
 [![Build Status](https://github.com/UCLAMAEThreads/MAE103/actions/workflows/CI.yml/badge.svg)](https://github.com/UCLAMAEThreads/MAE103/actions/workflows/CI.yml) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UCLAMAEThreads/MAE103/HEAD)
 
+You have two options for using the tools and notebooks in this repository. The first option is to run them in a cloud-based format, accessed by the Binder button above. In this format, you don't need to install anything locally, though you should download your notebooks to your own computer so that you can use them later.
 
-To get started with jupyter, please do the following:
+The other option, which gives you some more freedom to work, is to run on your own computer. For this, you will need to follow these instructions to install jupyter and the julia programming language. To get started, please do the following:
 
 1. Download Julia to your computer from https://julialang.org
 
